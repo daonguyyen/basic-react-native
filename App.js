@@ -1,6 +1,6 @@
 
 
-import React,  {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -16,63 +16,68 @@ import {
 const App = () => {
 
   const [Items, setItems] = useState(
-    [ 
-      { name: 'Item 1'}, 
-      { name: 'Item 2'}, 
-      { name: 'Item 3'}, 
-      { name: 'Item 4'}, 
-      { name: 'Item 5'}, 
-      { name: 'Item 6'}, 
-      { name: 'Item 7'}, 
-      { name: 'Item 8'}, 
-      { name: 'Item 9'}, 
-      { name: 'Item 10'}, 
-      { name: 'Item 11'}, 
-      { name: 'Item 12'}, 
+    [
+      { name: 'Item 1' },
+      { name: 'Item 2' },
+      { name: 'Item 3' },
+      { name: 'Item 4' },
+      { name: 'Item 5' },
+      { name: 'Item 6' },
+      { name: 'Item 7' },
+      { name: 'Item 8' },
+      { name: 'Item 9' },
+      { name: 'Item 10' },
+      { name: 'Item 11' },
+      { name: 'Item 12' },
     ]
   )
 
-  const DATA = [
+  const [Sections, setSection] = useState([
     {
       title: 'Title 1',
-      data : ['Item 1-1', 'Item 1-2', 'Item 1-3']
-    },
-    {
-      title: 'Title 2',
-      data : ['Item 2-1', 'Item 2-2', 'Item 2-3']
-    },
-    {
-      title: 'Title 3',
-      data : ['Item 3-1']
-    },
-    {
-      title: 'Title 4',
-      data : ['Item 4-1', 'Item 4-2']
+      data: ['Item 1-1', 'Item 1-2']
     }
-  ]
-    
-    const [Refreshing, setRefreshing] = useState(false)
-    const onRefresh = () => {
-      setRefreshing(true);
-      setItems([...Items, {name: 'Item 69'}])
-      setRefreshing(false)
-    }
+  ])
+
+  const [Refreshing, setRefreshing] = useState(false)
+  const onRefresh = () => {
+    setRefreshing(true);
+    const addingIndex = Sections.length + 1;
+    setSection([
+      ...Sections,
+      {
+        title: 'Title' + addingIndex,
+        data:
+          [
+            'Item' + addingIndex + '-1',
+            'Item' + addingIndex + '-2',
+          ]
+      }
+    ])
+    setRefreshing(false);
+  }
 
   return (
 
     <View style={styles.body}>
 
       <SectionList
-        keyExtractor={(item, index) => index.toString()} 
-        sections={DATA}
-        renderItem={({item})=> (
+        keyExtractor={(item, index) => index.toString()}
+        sections={Sections}
+        renderItem={({ item }) => (
           <Text style={styles.text} >{item}</Text>
         )}
-        renderSectionHeader={({section})=> (
+        renderSectionHeader={({ section }) => (
           <View style={styles.item}>
-              <Text style={styles.text} >{section.title}</Text>
-            </View>
+            <Text style={styles.text} >{section.title}</Text>
+          </View>
         )}
+        refreshControl={
+          <RefreshControl
+            refreshing={Refreshing}
+            onRefresh={onRefresh}
+          />
+        }
       />
 
       {/* <FlatList 
@@ -110,8 +115,8 @@ const App = () => {
           )
         })}
       </ScrollView> */}
-      
-      
+
+
     </View>
   );
 };
@@ -123,9 +128,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: '#ffffff'
   },
-  item : {
+  item: {
     // flex: 1,
-    backgroundColor: '#ff00ff', 
+    backgroundColor: '#ff00ff',
     alignItems: 'center',
     margin: 10
   },
@@ -134,7 +139,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     margin: 10
   },
-  
+
 });
 
 export default App;
